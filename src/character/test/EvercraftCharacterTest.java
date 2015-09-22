@@ -56,24 +56,9 @@ public class EvercraftCharacterTest {
 	}
 	
 	@Test
-	public void shouldHitOpponentIfDieRollBeatsOpponentsArmorClass() {
-		when(die.roll()).thenReturn(20);
-		when(opponent.getArmorClass()).thenReturn(10);
-		assertThat(underTest.isAttackHit(die, opponent), is(true));	
-	}
-	
-	@Test
-	public void shouldNotHitOpponentIfDieRollIsLessThanOpponentsArmorClass() {
-		when(die.roll()).thenReturn(5);
-		when(opponent.getArmorClass()).thenReturn(10);
-		assertThat(underTest.isAttackHit(die, opponent), is(false));	
-	}
-	
-	@Test
-	public void shouldHitOpponentIfDieRollIsSameAsOpponentsArmorClass() {
-		when(die.roll()).thenReturn(10);
-		when(opponent.getArmorClass()).thenReturn(10);
-		assertThat(underTest.isAttackHit(die, opponent), is(true));	
+	public void shouldDecreaseHitPointsByOneWhenHit() {
+		underTest.takeHit();
+		assertThat(underTest.getHitPoints(), is(4));
 	}
 	
 	

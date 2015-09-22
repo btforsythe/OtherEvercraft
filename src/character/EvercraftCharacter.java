@@ -36,4 +36,8 @@ public class EvercraftCharacter {
 		return die.roll() >= opponent.getArmorClass();
 	}
 
+	public void takeHit() {
+		hitPoints--;
+	}
+
 }
