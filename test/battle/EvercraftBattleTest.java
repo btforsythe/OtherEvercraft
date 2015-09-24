@@ -1,4 +1,4 @@
-package battle.test;
+package battle;
 
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;

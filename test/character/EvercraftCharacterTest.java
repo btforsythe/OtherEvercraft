@@ -1,4 +1,4 @@
-package character.test;
+package character;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -61,5 +61,27 @@ public class EvercraftCharacterTest {
 		assertThat(underTest.getHitPoints(), is(4));
 	}
 	
+	@Test
+	public void shouldSetStrength() {
+		underTest.setStrength(5);
+		assertThat(underTest.getStrength(), is(5));
+	}
+	
+	@Test
+	public void shouldDefaultStrengthTo10(){
+		assertThat(underTest.getStrength(), is(10));
+	}
+	
+	@Test
+	public void shouldNotSetStrengthBelow1() {
+		underTest.setStrength(-1000);
+		assertThat(underTest.getStrength(), is(1));
+	}
+	
+	@Test
+	public void shouldNotSetStrengthAbove20() {
+		underTest.setStrength(21);
+		assertThat(underTest.getStrength(), is(20));
+	}
 	
 }

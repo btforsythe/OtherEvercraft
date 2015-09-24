@@ -1,4 +1,4 @@
-package character.test;
+package character;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
