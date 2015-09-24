@@ -12,7 +12,16 @@ public class EvercraftBattle {
 	}
 
 	public void battle(EvercraftCharacter aggressor, EvercraftCharacter victim) {
-		victim.takeHit();
+		if (!shouldTakeHit(victim)) return;
+		if (die.roll()<20){
+			victim.takeHit(1);
+		}else{
+			victim.takeHit(2);
+		}
+	}
+	
+	public boolean shouldTakeHit(EvercraftCharacter victim) {
+		return die.roll() > victim.getArmorClass();
 	}
 
 }

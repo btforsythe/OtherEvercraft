@@ -57,7 +57,7 @@ public class EvercraftCharacterTest {
 	
 	@Test
 	public void shouldDecreaseHitPointsByOneWhenHit() {
-		underTest.takeHit();
+		underTest.takeHit(1);
 		assertThat(underTest.getHitPoints(), is(4));
 	}
 	

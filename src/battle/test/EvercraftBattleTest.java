@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 
@@ -39,7 +40,23 @@ public class EvercraftBattleTest {
 		when(die.roll()).thenReturn(19);
 		when(victim.getArmorClass()).thenReturn(10);
 		underTest.battle(aggressor, victim);
-		verify(victim, times(1)).takeHit();
+		verify(victim, times(1)).takeHit(1);
+	}
+	
+	@Test
+	public void shouldTakeDoubleDamageWhenCriticalHit() {
+		when(die.roll()).thenReturn(20);
+		when(victim.getArmorClass()).thenReturn(10);
+		underTest.battle(aggressor, victim);
+		verify(victim, times(1)).takeHit(2);
+	}
+	
+	@Test
+	public void shouldNotHitVictimIfRollIsLessThanVictimClassArmor(){
+		when(die.roll()).thenReturn(9);
+		when(victim.getArmorClass()).thenReturn(10);
+		underTest.battle(aggressor, victim);
+		verify(victim, times(0)).takeHit(Mockito.anyInt());
 	}
 	
 }
