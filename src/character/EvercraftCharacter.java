@@ -14,6 +14,10 @@ public class EvercraftCharacter {
 		this.level = level;
 	}
 
+	public int characterLevelValue() {
+		return level.getLevel();
+	}
+	
 	public void setName(String name) {
 		this.name = name;
 	}
