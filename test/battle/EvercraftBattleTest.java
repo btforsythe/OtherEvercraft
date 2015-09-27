@@ -3,6 +3,7 @@ package battle;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,6 +15,7 @@ import org.mockito.Spy;
 import battle.EvercraftBattle;
 import character.Die;
 import character.EvercraftCharacter;
+import character.Level;
 
 
 public class EvercraftBattleTest {
@@ -21,8 +23,11 @@ public class EvercraftBattleTest {
 	@Mock
 	Die die;
 	
+	@Mock
+	Level level;
+	
 	@Spy
-	EvercraftCharacter victim;
+	EvercraftCharacter victim = new EvercraftCharacter(level);
 	
 	@Mock
 	private EvercraftCharacter aggressor;
