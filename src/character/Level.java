@@ -20,8 +20,7 @@ public class Level {
 	}
 
 	private void updateLevel() {
-		if (xp >= 1000)
-			level += 1;
+		level = (xp / 1000) + 1;
 	}
 
 }

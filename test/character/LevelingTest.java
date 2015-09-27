@@ -24,8 +24,10 @@ public class LevelingTest {
 	@Test
 	public void levelIncreasesBy1ForEach1000ofXPGained() {
 		underTest.increaseXp(1000);
+		underTest.increaseXp(500);
+		underTest.increaseXp(500);
 		
-		assertThat(underTest.getLevel(), is(2));
+		assertThat(underTest.getLevel(), is(3));
 	}
 	
 }
