@@ -11,7 +11,6 @@ public class EvercraftCharacter {
 	private Integer armorClass = 10;
 	private Integer hitPoints = 5;
 	private Abilities abilities = new Abilities();
-	private Integer strength = 10;
 	private Level level;
 	
 	public EvercraftCharacter(Level level) {

@@ -2,14 +2,15 @@ package character;
 
 public class ModifiedCharacter {
 
+	private static final int CRITICAL_HIT_BASE_ATTACK_POWER = 2;
+	private static final int MIN_MODIFIED_VALUE = 1;
+	private static final int BASE_ATTACK_POWER = 1;
 	private EvercraftCharacter character;
 	private int damageTaken;
-	private int initialHitPoints;
 
 	public ModifiedCharacter(EvercraftCharacter character) {
 		this.character = character;
 		this.damageTaken = 0;
-		this.initialHitPoints = 5;
 	}
 
 	public int getRollModifier() {
@@ -17,11 +18,11 @@ public class ModifiedCharacter {
 	}
 
 	public int getAttackPower() {
-		return Math.max(1 + getModifierForAbility("strength"), 1);
+		return Math.max(BASE_ATTACK_POWER + getModifierForAbility("strength"), MIN_MODIFIED_VALUE);
 	}
 
 	public int getCriticalHitAttackPower() {
-		return Math.max(2 + 2*getModifierForAbility("strength"), 1);
+		return Math.max(CRITICAL_HIT_BASE_ATTACK_POWER + 2*getModifierForAbility("strength"), MIN_MODIFIED_VALUE);
 	}
 
 	public int getDefense() {
@@ -44,7 +45,7 @@ public class ModifiedCharacter {
 		int baseCharacterHitPoints = character.getHitPoints() 
 				+ (character.characterLevelValue()-1)*(5+getModifierForAbility("constitution")) 
 				+ getModifierForAbility("constitution");
-		return Math.max(baseCharacterHitPoints, 1);
+		return Math.max(baseCharacterHitPoints, MIN_MODIFIED_VALUE);
 	}
 	
 }

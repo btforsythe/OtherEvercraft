@@ -9,6 +9,7 @@ public class EvercraftBattle {
 	private static Die die;
 	private int dieRoll;
 	private ModifiedCharacter aggressor;
+	private ModifiedCharacter victim;
 	
 	private static int HIT = 1;
 	private static int CRITICAL_HIT = 2;
@@ -20,7 +21,8 @@ public class EvercraftBattle {
 	public void battle(ModifiedCharacter aggressor, ModifiedCharacter victim) {
 		dieRoll = die.roll();
 		this.aggressor = aggressor;
-		if (!shouldTakeHit(victim)) return;
+		this.victim = victim;
+		if (!shouldApplyHitToVictim()) return;
 		if (isCriticalRoll()){
 			victim.takeHit(aggressor.getCriticalHitAttackPower());
 		}else{
@@ -28,7 +30,7 @@ public class EvercraftBattle {
 		}
 	}
 	
-	private boolean shouldTakeHit(ModifiedCharacter victim) {
+	private boolean shouldApplyHitToVictim() {
 		return (dieRoll + aggressor.getRollModifier()) >= victim.getDefense();
 	}
 	
