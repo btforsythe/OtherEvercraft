@@ -46,8 +46,8 @@ public class EvercraftCharacterTest {
 	
 	@Before
 	public void setup() {
-		initMocks(this);
 		underTest = new EvercraftCharacter(level);
+		initMocks(this);
 	}
 	
 	@Test
