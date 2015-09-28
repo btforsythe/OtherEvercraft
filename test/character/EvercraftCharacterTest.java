@@ -75,13 +75,6 @@ public class EvercraftCharacterTest {
 	}
 	
 	@Test
-	public void shouldDecreaseHitPointsByOneWhenHit() {
-		when(level.getLevel()).thenReturn(1);
-		underTest.takeHit(1);
-		assertThat(underTest.getHitPoints(), is(4));
-	}
-	
-	@Test
 	public void shouldSetAbilityScore() {
 		underTest.setAbilityScore(ABILITY_NAME, ABILITY_SCORE);
 		verify(abilities, times(1)).setAbilityScore(ABILITY_NAME, ABILITY_SCORE);
@@ -91,13 +84,6 @@ public class EvercraftCharacterTest {
 	public void shouldGetAbilityScore() {
 		when(abilities.getAbilityScore(ABILITY_NAME)).thenReturn(ABILITY_SCORE);
 		assertThat(underTest.getAbilityScore(ABILITY_NAME), is(ABILITY_SCORE));
-	}
-	
-	@Test
-	public void anIncreaseInLevelShouldIncreaseHitPointsByOne() {
-		when(level.getLevel()).thenReturn(2);
-		
-		assertThat(underTest.getHitPoints(), is(6));
 	}
 	
 }
