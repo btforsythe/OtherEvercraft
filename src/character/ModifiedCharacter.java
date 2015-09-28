@@ -24,10 +24,6 @@ public class ModifiedCharacter {
 		return Math.max(2 + 2*getModifierForAbility("strength"), 1);
 	}
 
-	public EvercraftCharacter getCharacter() {
-		return character;
-	}
-
 	public int getDefense() {
 		return character.getArmorClass() + getModifierForAbility("dexterity");
 	}
@@ -37,15 +33,18 @@ public class ModifiedCharacter {
 	}
 
 	public int getCurrentHitPoints() {
-		return characterTotalHitPoints() - damageTaken;
+		return baseCharacterHitPoints() - damageTaken;
 	}
 	
 	private int getModifierForAbility(String abilityName) {
 		return -5 + (int)Math.floor(character.getAbilityScore(abilityName) / 2);
 	}
 	
-	private int characterTotalHitPoints() {
-		return character.getHitPoints() + (character.characterLevelValue()-1)*(5+getModifierForAbility("constitution")) + getModifierForAbility("constitution");
+	private int baseCharacterHitPoints() {
+		int baseCharacterHitPoints = character.getHitPoints() 
+				+ (character.characterLevelValue()-1)*(5+getModifierForAbility("constitution")) 
+				+ getModifierForAbility("constitution");
+		return Math.max(baseCharacterHitPoints, 1);
 	}
 	
 }

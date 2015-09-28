@@ -9,9 +9,17 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.stubbing.OngoingStubbing;
 
 
 public class ModifiedCharacterTest {
+
+	private static final int SUBTRACTIVE_ABILITY_SCORE = 1;
+	private static final int ADDITIVE_ABILITY_SCORE = 15;
+	private static final int MINIMUM_MODIFIED_VALUE = 1;
+	private static final int DEFAULT_CHARACTER_HIT_POINTS = 5;
+	private static final int DEFAULT_CHARACTER_ARMOR_CLASS = 10;
+	
 
 	@Mock
 	private EvercraftCharacter character;
@@ -22,52 +30,67 @@ public class ModifiedCharacterTest {
 	public void setup() {
 		initMocks(this);
 		underTest = new ModifiedCharacter(character);
+		when(character.getHitPoints()).thenReturn(DEFAULT_CHARACTER_HIT_POINTS);
+		when(character.getArmorClass()).thenReturn(DEFAULT_CHARACTER_ARMOR_CLASS);
 	}
 	
 	@Test
 	public void shouldReturnRollModifierBasedOnLevelAndStrengthModifier() {
-		when(character.getAbilityScore("strength")).thenReturn(15);
+		whenGettingAbility("strength").thenReturn(ADDITIVE_ABILITY_SCORE);
 		when(character.characterLevelValue()).thenReturn(2);
 		assertThat(underTest.getRollModifier(), is(3));
 	}
 	
 	@Test
 	public void shouldReturnAttackPowerBasedOnStrengthModifier() {
-		when(character.getAbilityScore("strength")).thenReturn(15);
+		whenGettingAbility("strength").thenReturn(ADDITIVE_ABILITY_SCORE);
 		assertThat(underTest.getAttackPower(), is(3));
 	}
 	
 	@Test
 	public void shouldNeverReturnAttackPowerOfLessThanOne() {
-		when(character.getAbilityScore("strength")).thenReturn(1);
-		assertThat(underTest.getAttackPower(), is(1));
+		whenGettingAbility("strength").thenReturn(SUBTRACTIVE_ABILITY_SCORE);
+		assertThat(underTest.getAttackPower(), is(MINIMUM_MODIFIED_VALUE));
 	}
 	
 	@Test
 	public void shouldReturnCriticalHitAttackPowerBasedOnDoubledStrengthModifier() {
-		when(character.getAbilityScore("strength")).thenReturn(15);
+		whenGettingAbility("strength").thenReturn(ADDITIVE_ABILITY_SCORE);
 		assertThat(underTest.getCriticalHitAttackPower(), is(6));
 	}
 	
 	@Test
 	public void shouldNeverReturnCriticalHitAttackPowerOfLessThanOne() {
-		when(character.getAbilityScore("strength")).thenReturn(1);
-		assertThat(underTest.getCriticalHitAttackPower(), is(1));
+		whenGettingAbility("strength").thenReturn(SUBTRACTIVE_ABILITY_SCORE);
+		assertThat(underTest.getCriticalHitAttackPower(), is(MINIMUM_MODIFIED_VALUE));
 	}
 	
 	@Test
 	public void shouldReturnDefenseBasedOnDexterityModifier() {
-		when(character.getAbilityScore("dexterity")).thenReturn(15);
-		when(character.getArmorClass()).thenReturn(10);
+		whenGettingAbility("dexterity").thenReturn(ADDITIVE_ABILITY_SCORE);
 		assertThat(underTest.getDefense(), is(12));
 	}
 	
 	@Test
 	public void shouldReturnCurrentHitPointsBasedOnLevelAndConstitutionModifier() {
-		when(character.getAbilityScore("constitution")).thenReturn(15);
-		when(character.getHitPoints()).thenReturn(5);
+		whenGettingAbility("constitution").thenReturn(ADDITIVE_ABILITY_SCORE);
 		when(character.characterLevelValue()).thenReturn(2);
 		assertThat(underTest.getCurrentHitPoints(), is(14));
+	}
+	
+	@Test
+	public void shouldNeverAllowCharacterBaseHitpointsToBeBelowOne() {
+		whenGettingAbility("constitution").thenReturn(SUBTRACTIVE_ABILITY_SCORE);
+		when(character.characterLevelValue()).thenReturn(1);
+		assertThat(underTest.getCurrentHitPoints(), is(MINIMUM_MODIFIED_VALUE));
+	}
+	
+	@Test
+	public void shouldTakeDamageAwayFromCurrentBaseHitPoints() {
+		whenGettingAbility("constitution").thenReturn(ADDITIVE_ABILITY_SCORE);
+		when(character.characterLevelValue()).thenReturn(2);
+		underTest.takeHit(4);
+		assertThat(underTest.getCurrentHitPoints(), is(10));
 	}
 	
 
@@ -83,6 +106,11 @@ public class ModifiedCharacterTest {
 		doReturn(3).when(character).characterLevelValue();
 		doReturn(10).when(character).getAbilityScore("strength");
 		assertThat(underTest.getRollModifier(), is(1));
+	}
+	
+
+	private OngoingStubbing<Integer> whenGettingAbility(String abilityName) {
+		return when(character.getAbilityScore(abilityName));
 	}
 	
 }
