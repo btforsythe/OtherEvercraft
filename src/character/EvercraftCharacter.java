@@ -3,6 +3,7 @@ package character;
 
 public class EvercraftCharacter {
 
+	private static final int INITIAL_LEVEL_OFFSET = 1;
 	private String name;
 	private Alignment alignment;
 	private Integer armorClass = 10;
@@ -43,7 +44,7 @@ public class EvercraftCharacter {
 	}
 
 	private int levelHitPointIncrease() {
-		return level.getLevel() - 1;
+		return level.getLevel() - INITIAL_LEVEL_OFFSET;
 	}
 	
 	
